@@ -1,0 +1,14 @@
+{% extends "auth_base.html" %}
+{% block auth_content %}
+<article class="auth-card v9-login-card">
+    <span class="eyebrow">CONTROL DE JORNADA</span>
+    <h1>Ingresar</h1>
+    <p>Acceso privado para administración y encargado.</p>
+    <form method="post" class="auth-form">
+        <label><span>Usuario</span><input name="usuario" autocomplete="username" autocapitalize="none" required autofocus></label>
+        <label><span>Contraseña</span><input type="password" name="password" autocomplete="current-password" required></label>
+        <button class="button primary" type="submit">Entrar</button>
+    </form>
+</article>
+<p class="auth-install-note">Diseñada para Android, iPhone y computadora.</p>
+{% endblock %}

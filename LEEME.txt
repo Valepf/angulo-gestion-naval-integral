@@ -1,0 +1,20 @@
+ANGULO · ACTUALIZACION VISUAL V11.6
+
+Qué cambia:
+- Se elimina "Instalar ANGULO en este dispositivo" de la pantalla de ingreso.
+- Se elimina el botón "Instalar" de la barra superior una vez iniciada la sesión.
+- ANGULO sigue funcionando como app instalada en iPhone/Android.
+
+Qué NO cambia:
+- Personal
+- Horas y fichajes
+- Trabajos
+- Usuarios y contraseñas
+- Base de datos
+- Tailscale / dirección HTTPS
+
+COMO APLICARLA
+1. Descomprimir este ZIP.
+2. En la PC del taller, ejecutar ACTUALIZAR_ANGULO_UI.bat.
+3. Esperar a que ANGULO vuelva a abrir.
+4. En el iPhone, cerrar ANGULO y volver a abrirlo desde el icono de la pantalla de inicio.

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07213e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ANGULO">
+  <title>{{ title }} · ANGULO V11.6</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="icon" href="{{ url_for('static', filename='icons/app-icon.svg') }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/logo_taller.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ui_unified.css') }}">
+</head>
+<body class="v11-body v113-clean v114-unified">
+<div class="app-shell v11-shell">
+  <aside class="sidebar v11-sidebar">
+    <a class="brand angulo-brand" href="{{ url_for('dashboard') }}">
+      <span class="brand-mark brand-logo-mark"><img src="{{ url_for('static', filename='icons/logo_angulo_ship.png') }}" alt="ANGULO"></span>
+      <span><strong>ANGULO</strong><small>Gestión del taller</small></span>
+    </a>
+    <nav class="side-nav">
+      <a class="nav-item {{ 'active' if page == 'inicio' else '' }}" href="{{ url_for('dashboard') }}"><span>⌂</span> Hoy</a>
+      <a class="nav-item {{ 'active' if page == 'personal_mobile' else '' }}" href="{{ url_for('mobile_team') }}"><span>◎</span> Personal</a>
+      {% if current_user and current_user.rol == 'Administradora' %}<a class="nav-item {{ 'active' if page == 'trabajos' else '' }}" href="{{ url_for('jobs') }}"><span>▣</span> Trabajos</a>{% endif %}
+      <a class="nav-item {{ 'active' if page == 'fichaje' else '' }}" href="{{ url_for('manual_attendance') }}"><span>◷</span> Fichaje</a>
+      <a class="nav-item {{ 'active' if page == 'quincena' else '' }}" href="{{ url_for('mobile_quincena') }}"><span>▦</span> Quincena</a>
+      {% if current_user and current_user.rol == 'Administradora' %}
+      <details class="v113-admin-nav" {% if page in ['calendario','personal','documentacion','gastos','reloj','usuarios'] %}open{% endif %}>
+        <summary>Administración</summary>
+        <a class="nav-item nav-secondary {{ 'active' if page == 'calendario' else '' }}" href="{{ url_for('calendar_page') }}">Calendario</a>
+        <a class="nav-item nav-secondary {{ 'active' if page == 'personal' else '' }}" href="{{ url_for('personal') }}">Legajos y costos</a>
+        <a class="nav-item nav-secondary {{ 'active' if page == 'documentacion' else '' }}" href="{{ url_for('documentation') }}">Documentación</a>
+        <a class="nav-item nav-secondary {{ 'active' if page == 'gastos' else '' }}" href="{{ url_for('expenses_page') }}">Gastos</a>
+        <a class="nav-item nav-secondary {{ 'active' if page == 'reloj' else '' }}" href="{{ url_for('facial_clock') }}">Reloj facial</a>
+        <a class="nav-item nav-secondary {{ 'active' if page == 'usuarios' else '' }}" href="{{ url_for('app_users') }}">Usuarios</a>
+      </details>
+      {% endif %}
+    </nav>
+    <div class="side-footer">
+      <div class="v9-side-user"><strong>{{ current_user.nombre }}</strong><small>{{ current_user.rol }}</small></div>
+      <form method="post" action="{{ url_for('logout') }}"><button class="v9-logout" type="submit">Cerrar sesión</button></form>
+      <div class="version">V11.6 · Diseño unificado</div>
+    </div>
+  </aside>
+
+  <main class="main-area v11-main">
+    <header class="v11-topbar">
+      <div class="v11-mobile-brand">
+        <img src="{{ url_for('static', filename='icons/logo_angulo_ship.png') }}" alt="">
+        <div><strong>Taller Angulo</strong><small>{{ today_label }}</small></div>
+      </div>
+      <div class="v11-desktop-title"><strong>Gestión Integral</strong><small>{{ today_label }}</small></div>
+      <div class="v114-top-actions">
+        {% if current_user and current_user.rol == 'Administradora' %}<a class="v114-calendar-shortcut {{ 'active' if page == 'calendario' else '' }}" href="{{ url_for('calendar_page') }}"><span>▦</span><b>Calendario</b></a>{% endif %}
+        <form class="v11-logout-form" method="post" action="{{ url_for('logout') }}"><button type="submit" aria-label="Cerrar sesión">Salir</button></form>
+      </div>
+    </header>
+
+    <div class="content v11-content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}<div class="flash-stack v11-flashes">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</div>
+
+<nav class="v11-mobile-nav">
+  <a class="{{ 'active' if page == 'inicio' else '' }}" href="{{ url_for('dashboard') }}"><span>⌂</span><b>Hoy</b></a>
+  <a class="{{ 'active' if page == 'personal_mobile' else '' }}" href="{{ url_for('mobile_team') }}"><span>◎</span><b>Personal</b></a>
+  <a class="{{ 'active' if page == 'fichaje' else '' }}" href="{{ url_for('manual_attendance') }}"><span>◷</span><b>Fichaje</b></a>
+  <a class="{{ 'active' if page == 'quincena' else '' }}" href="{{ url_for('mobile_quincena') }}"><span>▦</span><b>Quincena</b></a>
+</nav>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
